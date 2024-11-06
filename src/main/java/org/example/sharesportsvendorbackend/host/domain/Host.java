@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Host {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "host_id", nullable = false)
     private Long id;
 
     @Column(nullable = false, unique = true)
