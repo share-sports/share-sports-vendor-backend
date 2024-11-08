@@ -17,7 +17,7 @@ public class DeleteStadiumRequestDto {
 
 	public Stadium deleteEntity(Stadium stadium) {
 		return Stadium.builder()
-				.id(stadium.getId())
+				.stadiumId(stadium.getStadiumId())
 				.hostUuid(stadium.getHostUuid())
 				.name(stadium.getName())
 				.address(stadium.getAddress())

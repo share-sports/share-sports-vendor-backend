@@ -34,10 +34,11 @@ public class StadiumService {
 	public void updateStadium(String hostUuid, UpdateStadiumRequestDto updateStadiumRequestDto) {
 
 		Long stadiumId = stadiumRepository.findByUuid(updateStadiumRequestDto.getStadiumUuid())
-			.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DATA)).getId();
+			.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DATA)).getStadiumId();
 
 		stadiumRepository.save(updateStadiumRequestDto.updateEntity(hostUuid, stadiumId));
 	}
+
 
 	public void deleteStadium(DeleteStadiumRequestDto deleteStadiumRequestDto) {
 
@@ -47,6 +48,7 @@ public class StadiumService {
 		stadiumRepository.delete(deleteStadiumRequestDto.deleteEntity(stadium));
 	}
 
+	@Transactional(readOnly = true)
 	public GetDetailStadiumResponseDto getDetailStadium(GetDetailStadiumRequestDto getDetailStadiumRequestDto) {
 
 		Stadium stadium = stadiumRepository.findByUuid(getDetailStadiumRequestDto.getStadiumUuid())

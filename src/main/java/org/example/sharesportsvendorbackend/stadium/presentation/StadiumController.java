@@ -9,6 +9,10 @@ import org.example.sharesportsvendorbackend.stadium.dto.in.UpdateStadiumRequestD
 import org.example.sharesportsvendorbackend.stadium.dto.out.GetDetailStadiumResponseDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +29,7 @@ public class StadiumController {
 	private final StadiumService stadiumService;
 
 	@Operation(summary = "구장 상세 조회", description = "구장 상세 조회 API")
+	@GetMapping("/detail")
 	public BaseResponse<GetDetailStadiumResponseDto> getDetailStadium(GetDetailStadiumRequestDto getDetailStadiumRequestDto) {
 
 		return new BaseResponse<>(
@@ -33,6 +38,7 @@ public class StadiumController {
 	}
 
 	@Operation(summary = "구장 생성", description = "구장 생성 API")
+	@PostMapping
 	public BaseResponse<Void> assignStadium(AssignStadiumRequestDto assignStadiumRequestDto) {
 
 		stadiumService.assignStadium(assignStadiumRequestDto);
@@ -40,13 +46,16 @@ public class StadiumController {
 	}
 
 	@Operation(summary = "구장 수정", description = "구장 수정 API")
-	public BaseResponse<Void> updateStadium(@AuthenticationPrincipal UserDetails userDetails, UpdateStadiumRequestDto updateStadiumRequestDto) {
+	@PutMapping
+	public BaseResponse<Void> updateStadium(@AuthenticationPrincipal UserDetails userDetails,
+		UpdateStadiumRequestDto updateStadiumRequestDto) {
 
 		stadiumService.updateStadium(userDetails.getUsername(), updateStadiumRequestDto);
 		return new BaseResponse<>();
 	}
 
 	@Operation(summary = "구장 삭제", description = "구장 삭제 API")
+	@DeleteMapping
 	public BaseResponse<Void> deleteStadium(DeleteStadiumRequestDto deleteStadiumRequestDto) {
 
 		stadiumService.deleteStadium(deleteStadiumRequestDto);
