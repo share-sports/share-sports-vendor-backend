@@ -55,6 +55,11 @@ public class AuthServiceImpl implements AuthService {
     public void signUp(SignUpRequestDto signUpRequestDto) {
 
         log.info("signUpRequestDto : {}", signUpRequestDto);
+        if (Boolean.TRUE.equals(hostRepository.existsByEmail(signUpRequestDto.getEmail()))) {
+            throw new BaseException(BaseResponseStatus.DUPLICATED_HOST);
+        }
+
+
         hostRepository.save(signUpRequestDto.toEntity(passwordEncoder));
     }
 

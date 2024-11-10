@@ -13,4 +13,6 @@ public interface HostRepository extends JpaRepository<Host, Long> {
     Optional<Host> findByHostUuid(String hostUuid);
     @Query("SELECT m.email FROM Host m WHERE m.hostUuid = :hostUuid")
     String findEmailByHostUuid(@Param("hostUuid") String hostUuid);
+
+	Optional<Host> findByName(String stadiumName);
 }

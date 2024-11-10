@@ -19,11 +19,14 @@ public class StadiumImage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "stadium_image_id", nullable = false)
-	private Long id;
+	@Column(nullable = false)
+	private Long stadiumImageId;
 
 	@Column(nullable = false)
 	private String imageSrc;
+
+	@Column(nullable = false)
+	private boolean thumbnail;
 
 	@Column(nullable = false)
 	private String stadiumUuid;

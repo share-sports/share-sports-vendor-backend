@@ -31,7 +31,7 @@ public class GetDetailStadiumResponseDto {
 		return GetDetailStadiumResponseDto.builder()
 				.stadiumUuid(stadium.getStadiumUuid())
 				.hostUuid(stadium.getHostUuid())
-				.name(stadium.getName())
+				.name(stadium.getStadiumName())
 				.address(stadium.getAddress())
 				.phone(stadium.getPhone())
 				.description(stadium.getDescription())
