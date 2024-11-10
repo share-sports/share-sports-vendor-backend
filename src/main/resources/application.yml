@@ -64,3 +64,6 @@ springdoc:
 logging:
   level:
     org.example.sharesportsvendorbackend: DEBUG
+
+server:
+  port: 9090
