@@ -28,6 +28,7 @@ public enum BaseResponseStatus {
 	INVALID_CSV_FORMAT(HttpStatus.BAD_REQUEST, false, "잘못된 CSV 파일 형식입니다."),
 	NOT_FOUND_DATA(HttpStatus.NOT_FOUND, false, "데이터를 찾을 수 없습니다."),
 	AUTH_CODE_INVALID(HttpStatus.NOT_FOUND, false, "인증 코드가 유효하지 않습니다."),
+	NOT_FOUND_HOST(HttpStatus.NOT_FOUND, false, "호스트를 찾을 수 없습니다."),
 	/*
 	 * 405 METHOD_NOT_ALLOWED: 허용되지 않은 Request Method 호출
 	 */
