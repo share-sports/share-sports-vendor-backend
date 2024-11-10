@@ -9,6 +9,7 @@ import org.example.sharesportsvendorbackend.host.infrastructure.HostRepository;
 import org.example.sharesportsvendorbackend.post.domain.Post;
 import org.example.sharesportsvendorbackend.post.dto.in.AddPostRequestDto;
 import org.example.sharesportsvendorbackend.post.dto.in.UpdatePostRequestDto;
+import org.example.sharesportsvendorbackend.post.dto.out.GetPostDetailResponseDto;
 import org.example.sharesportsvendorbackend.post.dto.out.GetPostListResponseDto;
 import org.example.sharesportsvendorbackend.post.infrastructure.PostRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PostService {
 
 	private final HostRepository hostRepository;
-	private PostRepository postRepository;
+	private final PostRepository postRepository;
 
 	public void addPost(String authorUuid, AddPostRequestDto addPostRequestDto) {
 
@@ -39,10 +40,10 @@ public class PostService {
 		Host host = hostRepository.findByHostUuid(authorUuid)
 				.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_HOST));
 
-		Long postId = postRepository.findByPostUuid(updatePostRequestDto.getPostUuid())
-				.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DATA)).getPostId();
+		Post post = postRepository.findByPostUuid(updatePostRequestDto.getPostUuid())
+				.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DATA));
 
-		postRepository.save(updatePostRequestDto.updateEntity(postId, host));
+		postRepository.save(updatePostRequestDto.updateEntity(post, host));
 	}
 
 	public void deletePost(String postUuid) {
@@ -55,6 +56,7 @@ public class PostService {
 				.postUuid(post.getPostUuid())
 				.title(post.getTitle())
 				.content(post.getContent())
+				.stadiumUuid(post.getStadiumUuid())
 				.deleted(true)
 				.authorName(post.getAuthorName())
 				.authorUuid(post.getAuthorUuid())
@@ -68,12 +70,31 @@ public class PostService {
 				.map(post -> GetPostListResponseDto.builder()
 							.postUuid(post.getPostUuid())
 							.title(post.getTitle())
-							.content(post.getContent())
 							.authorName(post.getAuthorName())
 							.authorUuid(post.getAuthorUuid())
+							.createdDate(post.getCreatedDate())
+							.updatedDate(post.getLastModifiedDate())
 							.build()
 				)
 				.toList();
+	}
+
+	@Transactional(readOnly = true)
+	public GetPostDetailResponseDto getPostDetail(String postUuid) {
+
+		Post post = postRepository.findByPostUuid(postUuid)
+				.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DATA));
+
+		return GetPostDetailResponseDto.builder()
+				.postUuid(post.getPostUuid())
+				.title(post.getTitle())
+				.content(post.getContent())
+				.authorName(post.getAuthorName())
+				.authorUuid(post.getAuthorUuid())
+				.createdDate(post.getCreatedDate())
+				.updatedDate(post.getLastModifiedDate())
+				.build();
+
 	}
 
 }

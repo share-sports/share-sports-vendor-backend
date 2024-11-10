@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class GetPostListResponseDto {
+public class GetPostDetailResponseDto {
+
 
 	private String postUuid;
 	private String title;
+	private String content;
 	private String authorName;
 	private String authorUuid;
 	private LocalDateTime createdDate;

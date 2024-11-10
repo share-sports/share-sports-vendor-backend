@@ -19,10 +19,11 @@ public class UpdatePostRequestDto {
 	private String content;
 
 
-	public Post updateEntity(Long postId, Host host) {
+	public Post updateEntity(Post post, Host host) {
 		return Post.builder()
-			.postId(postId)
+			.postId(post.getPostId())
 			.postUuid(postUuid)
+			.stadiumUuid(post.getStadiumUuid())
 			.title(title)
 			.content(content)
 			.deleted(false)

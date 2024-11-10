@@ -6,6 +6,7 @@ import org.example.sharesportsvendorbackend.global.common.response.BaseResponse;
 import org.example.sharesportsvendorbackend.post.application.PostService;
 import org.example.sharesportsvendorbackend.post.dto.in.AddPostRequestDto;
 import org.example.sharesportsvendorbackend.post.dto.in.UpdatePostRequestDto;
+import org.example.sharesportsvendorbackend.post.dto.out.GetPostDetailResponseDto;
 import org.example.sharesportsvendorbackend.post.dto.out.GetPostListResponseDto;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +34,7 @@ public class PostController {
 	@Operation(summary = "게시글 생성", description = "게시글 생성 API")
 	@PostMapping
 	public BaseResponse<Void> addPost(@AuthenticationPrincipal UserDetails userDetails,
-		AddPostRequestDto addPostRequestDto) {
+		@RequestBody AddPostRequestDto addPostRequestDto) {
 
 		postService.addPost(userDetails.getUsername(), addPostRequestDto);
 		return new BaseResponse<>();
@@ -41,7 +43,7 @@ public class PostController {
 	@Operation(summary = "게시글 수정", description = "게시글 수정 API")
 	@PutMapping
 	public BaseResponse<Void> updatePost(@AuthenticationPrincipal UserDetails userDetails,
-		UpdatePostRequestDto updatePostRequestDto) {
+		@RequestBody UpdatePostRequestDto updatePostRequestDto) {
 
 		postService.updatePost(userDetails.getUsername(), updatePostRequestDto);
 		return new BaseResponse<>();
@@ -55,9 +57,17 @@ public class PostController {
 		return new BaseResponse<>();
 	}
 
+	@Operation(summary = "구장의 게시글 리스트 조회", description = "게시글 리스트 조회 API")
 	@GetMapping("/list/{stadiumUuid}")
 	public BaseResponse<List<GetPostListResponseDto>> getPostList(@PathVariable String stadiumUuid) {
 
 		return new BaseResponse<>(postService.getPostList(stadiumUuid));
+	}
+
+	@Operation(summary = "게시글 상세 조회", description = "게시글 상세 조회 API")
+	@GetMapping("/{postUuid}")
+	public BaseResponse<GetPostDetailResponseDto> getPostDetail(@PathVariable String postUuid) {
+
+		return new BaseResponse<>(postService.getPostDetail(postUuid));
 	}
 }
