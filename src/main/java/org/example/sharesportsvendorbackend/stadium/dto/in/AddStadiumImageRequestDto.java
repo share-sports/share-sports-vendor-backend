@@ -1,5 +1,8 @@
 package org.example.sharesportsvendorbackend.stadium.dto.in;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.example.sharesportsvendorbackend.stadium.domain.StadiumImage;
 
 import lombok.AllArgsConstructor;
@@ -13,25 +16,25 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AddStadiumImageRequestDto {
 
-	private String imageSrc;
-	private boolean thumbnail;
+	private List<StadiumImageDto> images;
 	private String stadiumUuid;
 
-	public StadiumImage createEntity(AddStadiumImageRequestDto addStadiumImageRequestDto) {
-		return StadiumImage.builder()
-				.imageSrc(addStadiumImageRequestDto.getImageSrc())
-				.thumbnail(addStadiumImageRequestDto.isThumbnail())
-				.stadiumUuid(addStadiumImageRequestDto.getStadiumUuid())
-				.build();
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Builder
+	public static class StadiumImageDto {
+		private String imageSrc;
+		private boolean thumbnail;
 	}
 
-	public StadiumImage updateEntity(Long stadiumImageId, AddStadiumImageRequestDto addStadiumImageRequestDto) {
-
-		return StadiumImage.builder()
-				.stadiumImageId(stadiumImageId)
-				.imageSrc(addStadiumImageRequestDto.getImageSrc())
-				.thumbnail(addStadiumImageRequestDto.isThumbnail())
-				.stadiumUuid(addStadiumImageRequestDto.getStadiumUuid())
-				.build();
+	public List<StadiumImage> createEntities() {
+		return images.stream()
+			.map(imageDto -> StadiumImage.builder()
+				.imageSrc(imageDto.getImageSrc())
+				.thumbnail(imageDto.isThumbnail())
+				.stadiumUuid(this.stadiumUuid)
+				.build())
+			.collect(Collectors.toList());
 	}
 }

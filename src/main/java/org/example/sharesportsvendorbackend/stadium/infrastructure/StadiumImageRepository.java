@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface StadiumImageRepository extends JpaRepository<StadiumImage, Long> {
 
 	List<StadiumImage> findByStadiumUuid(String stadiumUuid);
+
+	void deleteByStadiumUuid(String stadiumUuid);
 }
