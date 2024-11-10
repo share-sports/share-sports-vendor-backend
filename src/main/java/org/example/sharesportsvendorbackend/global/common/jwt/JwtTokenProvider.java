@@ -256,9 +256,9 @@ public class JwtTokenProvider {
         }
     }
 
-    private String getUserAuthorities(String memberUuid) {
+    private String getUserAuthorities(String hostUuid) {
 
-        UserDetails userDetails = authUserDetailService.loadUserByUsername(memberUuid);
+        UserDetails userDetails = authUserDetailService.loadUserByUsername(hostUuid);
         return userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .findFirst()
@@ -266,7 +266,7 @@ public class JwtTokenProvider {
     }
 
     // Redis에 저장된 RefreshToken을 삭제
-    public void deleteRefreshToken(String memberUuid) {
-        redisTemplate.delete(memberUuid);
+    public void deleteRefreshToken(String hostUuid) {
+        redisTemplate.delete(hostUuid);
     }
 }

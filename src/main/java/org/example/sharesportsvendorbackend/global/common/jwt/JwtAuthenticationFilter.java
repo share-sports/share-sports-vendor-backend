@@ -48,10 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 현재 SecurityContext에 인증 정보가 없을 경우 인증 처리
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailService.loadUserByUsername(hostUuid);
+                UserDetails userDetails = userDetailService.loadUserByUsername(hostUuid);
+                log.debug("doFilterInternal - hostUuid: {}", userDetails.getUsername());
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
-                        null,
+                        jwt,
                         userDetails.getAuthorities()
                 );
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

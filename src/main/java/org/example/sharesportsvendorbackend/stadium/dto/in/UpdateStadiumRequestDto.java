@@ -37,9 +37,9 @@ public class UpdateStadiumRequestDto {
 
 	public Stadium updateEntity(String hostUuid, Long id) {
 		return Stadium.builder()
-			.id(id)
+			.stadiumId(id)
 			.hostUuid(hostUuid)
-			.name(name)
+			.stadiumName(name)
 			.address(address)
 			.phone(phone)
 			.description(description)
