@@ -2,6 +2,7 @@ package org.example.sharesportsvendorbackend.post.dto.in;
 
 import org.example.sharesportsvendorbackend.host.domain.Host;
 import org.example.sharesportsvendorbackend.post.domain.Post;
+import org.example.sharesportsvendorbackend.post.domain.PostType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ public class UpdatePostRequestDto {
 	private String postUuid;
 	private String title;
 	private String content;
+	private PostType postType;
 
 
 	public Post updateEntity(Post post, Host host) {
@@ -29,6 +31,7 @@ public class UpdatePostRequestDto {
 			.deleted(false)
 			.authorName(host.getName())
 			.authorUuid(host.getHostUuid())
+			.postType(postType)
 			.build();
 	}
 }

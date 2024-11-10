@@ -43,4 +43,7 @@ public class Post extends BaseEntity {
 
 	@Column(nullable = false)
 	private String stadiumUuid;
+
+	@Column(nullable = false)
+	private PostType postType;
 }

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.example.sharesportsvendorbackend.host.domain.Host;
 import org.example.sharesportsvendorbackend.post.domain.Post;
+import org.example.sharesportsvendorbackend.post.domain.PostType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class AddPostRequestDto {
 	private String title;
 	private String content;
 	private String stadiumUuid;
+	private PostType postType;
 
 	public Post createEntity(Host host) {
 		return Post.builder()
@@ -29,6 +31,7 @@ public class AddPostRequestDto {
 				.authorName(host.getName())
 				.authorUuid(host.getHostUuid())
 				.stadiumUuid(stadiumUuid)
+				.postType(postType)
 				.build();
 	}
 

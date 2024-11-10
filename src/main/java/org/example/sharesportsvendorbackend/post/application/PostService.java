@@ -7,6 +7,7 @@ import org.example.sharesportsvendorbackend.global.error.BaseException;
 import org.example.sharesportsvendorbackend.host.domain.Host;
 import org.example.sharesportsvendorbackend.host.infrastructure.HostRepository;
 import org.example.sharesportsvendorbackend.post.domain.Post;
+import org.example.sharesportsvendorbackend.post.domain.PostType;
 import org.example.sharesportsvendorbackend.post.dto.in.AddPostRequestDto;
 import org.example.sharesportsvendorbackend.post.dto.in.UpdatePostRequestDto;
 import org.example.sharesportsvendorbackend.post.dto.out.GetPostDetailResponseDto;
@@ -60,13 +61,15 @@ public class PostService {
 				.deleted(true)
 				.authorName(post.getAuthorName())
 				.authorUuid(post.getAuthorUuid())
+				.postType(post.getPostType())
 				.build());
 	}
 
 	@Transactional(readOnly = true)
-	public List<GetPostListResponseDto> getPostList(String stadiumUuid) {
+	public List<GetPostListResponseDto> getPostList(String stadiumUuid, PostType postType) {
 		return postRepository.findByStadiumUuid(stadiumUuid).stream()
 			.filter(post -> !post.isDeleted())
+			.filter(post -> post.getPostType().equals(postType))
 				.map(post -> GetPostListResponseDto.builder()
 							.postUuid(post.getPostUuid())
 							.title(post.getTitle())
@@ -74,6 +77,7 @@ public class PostService {
 							.authorUuid(post.getAuthorUuid())
 							.createdDate(post.getCreatedDate())
 							.updatedDate(post.getLastModifiedDate())
+							.postType(postType)
 							.build()
 				)
 				.toList();
@@ -93,6 +97,7 @@ public class PostService {
 				.authorUuid(post.getAuthorUuid())
 				.createdDate(post.getCreatedDate())
 				.updatedDate(post.getLastModifiedDate())
+				.postType(post.getPostType())
 				.build();
 
 	}
