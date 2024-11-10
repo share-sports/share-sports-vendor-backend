@@ -17,6 +17,7 @@ public class GetPostListResponseDto {
 
 	private String postUuid;
 	private String title;
+	private String content;
 	private String authorName;
 	private String authorUuid;
 	private LocalDateTime createdDate;

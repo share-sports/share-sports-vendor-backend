@@ -73,6 +73,7 @@ public class PostService {
 				.map(post -> GetPostListResponseDto.builder()
 							.postUuid(post.getPostUuid())
 							.title(post.getTitle())
+							.content(post.getContent())
 							.authorName(post.getAuthorName())
 							.authorUuid(post.getAuthorUuid())
 							.createdDate(post.getCreatedDate())
