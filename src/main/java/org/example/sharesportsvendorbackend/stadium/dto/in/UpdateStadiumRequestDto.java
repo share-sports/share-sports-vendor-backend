@@ -39,6 +39,7 @@ public class UpdateStadiumRequestDto {
 		return Stadium.builder()
 			.stadiumId(id)
 			.hostUuid(hostUuid)
+			.stadiumUuid(stadiumUuid)
 			.stadiumName(name)
 			.address(address)
 			.phone(phone)

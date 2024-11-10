@@ -49,6 +49,7 @@ public class StadiumController {
 		@RequestBody AssignStadiumRequestDto assignStadiumRequestDto) {
 
 		stadiumService.assignStadium(userDetails.getUsername(), assignStadiumRequestDto);
+
 		return new BaseResponse<>();
 	}
 
@@ -56,6 +57,8 @@ public class StadiumController {
 	@PutMapping
 	public BaseResponse<Void> updateStadium(@AuthenticationPrincipal UserDetails userDetails,
 		@RequestBody UpdateStadiumRequestDto updateStadiumRequestDto) {
+
+		System.out.println(updateStadiumRequestDto);
 
 		stadiumService.updateStadium(userDetails.getUsername(), updateStadiumRequestDto);
 		return new BaseResponse<>();
