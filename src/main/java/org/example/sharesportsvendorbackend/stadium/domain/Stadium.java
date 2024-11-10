@@ -30,7 +30,7 @@ public class Stadium {
 	private String hostUuid;
 
 	@Column(nullable = false)
-	private String name;
+	private String stadiumName;
 
 	@Column(nullable = false)
 	private String address;

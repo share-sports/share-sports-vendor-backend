@@ -37,7 +37,7 @@ public enum BaseResponseStatus {
 	 * 409 CONFLICT: 리소스의 현재 상태와 충돌
 	 */
 	DUPLICATED_DATA(HttpStatus.CONFLICT, false, "중복된 데이터입니다."),
-
+	DUPLICATED_HOST(HttpStatus.CONFLICT, false, "중복된 계정이 존재합니다."),
 
 	/*
 	 * 500 INTERNAL_SERVER_ERROR: 내부 서버 오류

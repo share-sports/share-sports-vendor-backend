@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class StadiumImageController {
 
 	@Operation(summary = "구장 이미지 추가", description = "구장 이미지 추가 API")
 	@PostMapping
-	public BaseResponse<Void> addStadiumImage(AddStadiumImageRequestDto addStadiumImageRequestDto) {
+	public BaseResponse<Void> addStadiumImage(@RequestBody AddStadiumImageRequestDto addStadiumImageRequestDto) {
 
 		stadiumImageService.addStadiumImage(addStadiumImageRequestDto);
 		return new BaseResponse<>();
@@ -35,7 +36,8 @@ public class StadiumImageController {
 
 	@Operation(summary = "구장 이미지 수정", description = "구장 이미지 수정 API")
 	@PutMapping
-	public BaseResponse<Void> updateStadiumImage(Long stadiumImageId, AddStadiumImageRequestDto addStadiumImageRequestDto) {
+	public BaseResponse<Void> updateStadiumImage(Long stadiumImageId,
+		@RequestBody AddStadiumImageRequestDto addStadiumImageRequestDto) {
 
 		stadiumImageService.updateStadiumImage(stadiumImageId, addStadiumImageRequestDto);
 		return new BaseResponse<>();

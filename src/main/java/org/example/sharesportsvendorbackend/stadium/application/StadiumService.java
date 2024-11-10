@@ -1,13 +1,16 @@
 package org.example.sharesportsvendorbackend.stadium.application;
 
+import java.util.List;
+
 import org.example.sharesportsvendorbackend.global.common.response.BaseResponseStatus;
 import org.example.sharesportsvendorbackend.global.error.BaseException;
+import org.example.sharesportsvendorbackend.host.infrastructure.HostRepository;
 import org.example.sharesportsvendorbackend.stadium.domain.Stadium;
 import org.example.sharesportsvendorbackend.stadium.dto.in.AssignStadiumRequestDto;
 import org.example.sharesportsvendorbackend.stadium.dto.in.DeleteStadiumRequestDto;
-import org.example.sharesportsvendorbackend.stadium.dto.in.GetDetailStadiumRequestDto;
 import org.example.sharesportsvendorbackend.stadium.dto.in.UpdateStadiumRequestDto;
 import org.example.sharesportsvendorbackend.stadium.dto.out.GetDetailStadiumResponseDto;
+import org.example.sharesportsvendorbackend.stadium.dto.out.GetStadiumListByUserResponse;
 import org.example.sharesportsvendorbackend.stadium.infrastructure.StadiumRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 public class StadiumService {
 
 	private final StadiumRepository stadiumRepository;
+	private final HostRepository hostRepository;
 
-	public void assignStadium(AssignStadiumRequestDto assignStadiumRequestDto) {
+	public void assignStadium(String hostUuid, AssignStadiumRequestDto assignStadiumRequestDto) {
 
-		if (stadiumRepository.existsByName(assignStadiumRequestDto.getName())) {
+		if (stadiumRepository.existsByStadiumName(assignStadiumRequestDto.getStadiumName())) {
 			throw new BaseException(BaseResponseStatus.DUPLICATED_DATA);
 		}
-		stadiumRepository.save(assignStadiumRequestDto.createEntity());
+		stadiumRepository.save(assignStadiumRequestDto.createEntity(hostUuid));
 	}
 
 	public void updateStadium(String hostUuid, UpdateStadiumRequestDto updateStadiumRequestDto) {
@@ -49,11 +53,24 @@ public class StadiumService {
 	}
 
 	@Transactional(readOnly = true)
-	public GetDetailStadiumResponseDto getDetailStadium(GetDetailStadiumRequestDto getDetailStadiumRequestDto) {
+	public GetDetailStadiumResponseDto getDetailStadium(String stadiumUuid) {
 
-		Stadium stadium = stadiumRepository.findByUuid(getDetailStadiumRequestDto.getStadiumUuid())
+		Stadium stadium = stadiumRepository.findByUuid(stadiumUuid)
 			.orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DATA));
 
 		return GetDetailStadiumResponseDto.toDto(stadium);
+	}
+
+	@Transactional(readOnly = true)
+	public List<GetStadiumListByUserResponse> getStadiumListByHost(String hostUuid) {
+
+		return stadiumRepository.findByHostUuid(hostUuid)
+			.stream()
+			.map(stadium -> GetStadiumListByUserResponse.builder()
+				.stadiumUuid(stadium.getStadiumUuid())
+				.name(stadium.getStadiumName())
+				.address(stadium.getAddress())
+				.build())
+			.toList();
 	}
 }

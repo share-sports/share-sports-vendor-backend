@@ -19,7 +19,7 @@ public class DeleteStadiumRequestDto {
 		return Stadium.builder()
 				.stadiumId(stadium.getStadiumId())
 				.hostUuid(stadium.getHostUuid())
-				.name(stadium.getName())
+				.stadiumName(stadium.getStadiumName())
 				.address(stadium.getAddress())
 				.phone(stadium.getPhone())
 				.description(stadium.getDescription())

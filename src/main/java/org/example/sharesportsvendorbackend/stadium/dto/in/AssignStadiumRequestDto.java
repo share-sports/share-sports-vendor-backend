@@ -1,5 +1,7 @@
 package org.example.sharesportsvendorbackend.stadium.dto.in;
 
+import java.util.UUID;
+
 import org.example.sharesportsvendorbackend.stadium.domain.Stadium;
 
 import lombok.AllArgsConstructor;
@@ -13,9 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AssignStadiumRequestDto {
 
-	private String hostUuid;
-
-	private String name;
+	private String stadiumName;
 
 	private String address;
 
@@ -38,11 +38,12 @@ public class AssignStadiumRequestDto {
 	private String closingHours;
 
 
-	public Stadium createEntity() {
+	public Stadium createEntity(String hostUuid) {
 		return Stadium.builder()
 				.hostUuid(hostUuid)
-				.name(name)
+				.stadiumName(stadiumName)
 				.address(address)
+				.stadiumUuid(UUID.randomUUID().toString().substring(0, 8))
 				.phone(phone)
 				.description(description)
 				.parking(parking)
