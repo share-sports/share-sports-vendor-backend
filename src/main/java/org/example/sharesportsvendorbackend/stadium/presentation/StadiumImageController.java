@@ -4,11 +4,9 @@ import java.util.List;
 
 import org.example.sharesportsvendorbackend.global.common.response.BaseResponse;
 import org.example.sharesportsvendorbackend.stadium.application.StadiumImageService;
-import org.example.sharesportsvendorbackend.stadium.dto.in.AddStadiumImageRequestDto;
+import org.example.sharesportsvendorbackend.stadium.dto.StadiumImageRequestDto;
 import org.example.sharesportsvendorbackend.stadium.dto.out.GetStadiumImageListResponse;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,28 +24,19 @@ public class StadiumImageController {
 
 	private final StadiumImageService stadiumImageService;
 
-	@Operation(summary = "구장 이미지 추가", description = "구장 이미지 추가 API")
-	@PostMapping
-	public BaseResponse<Void> addStadiumImage(@RequestBody AddStadiumImageRequestDto addStadiumImageRequestDto) {
+	// @Operation(summary = "구장 이미지 추가", description = "구장 이미지 추가 API")
+	// @PostMapping
+	// public BaseResponse<Void> addStadiumImages(@RequestBody List<StadiumImageRequestDto> stadiumImageRequestDtos) {
+	//
+	// 	stadiumImageService.addStadiumImageList(stadiumImageRequestDtos);
+	// 	return new BaseResponse<>();
+	// }
 
-		stadiumImageService.addStadiumImage(addStadiumImageRequestDto);
-		return new BaseResponse<>();
-	}
-
-	@Operation(summary = "구장 이미지 수정", description = "구장 이미지 수정 API")
+	@Operation(summary = "구장 이미지 생성/수정", description = "구장 이미지 다중 등록 및 수정 삭제 가능. 명시한 형태로 초기화됨.")
 	@PutMapping
-	public BaseResponse<Void> updateStadiumImage(Long stadiumImageId,
-		@RequestBody AddStadiumImageRequestDto addStadiumImageRequestDto) {
+	public BaseResponse<Void> updateStadiumImage(@RequestBody List<StadiumImageRequestDto> stadiumImageRequestDtos) {
 
-		stadiumImageService.updateStadiumImage(stadiumImageId, addStadiumImageRequestDto);
-		return new BaseResponse<>();
-	}
-
-	@Operation(summary = "구장 이미지 삭제", description = "구장 이미지 삭제 API")
-	@DeleteMapping
-	public BaseResponse<Void> deleteStadiumImage(Long stadiumImageId) {
-
-		stadiumImageService.deleteStadiumImage(stadiumImageId);
+		stadiumImageService.updateStadiumImageList(stadiumImageRequestDtos);
 		return new BaseResponse<>();
 	}
 
